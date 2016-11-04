@@ -110,6 +110,9 @@ def sgf_iter_states(sgf_string, include_end=True):
 
     """
     collection = sgf.parse(sgf_string)
+    
+    for i in collection[0].rest:
+        print i.properties
     game = collection[0]
     gs = _sgf_init_gamestate(game.root)
     if game.rest is not None:
