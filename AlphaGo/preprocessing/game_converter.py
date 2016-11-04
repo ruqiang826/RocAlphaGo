@@ -7,6 +7,7 @@ import os
 import warnings
 import sgf
 import h5py as h5
+import pdb
 
 
 class SizeMismatchError(Exception):
@@ -33,10 +34,12 @@ class game_converter:
             state_action_iterator = sgf_iter_states(file_object.read(), include_end=False)
 
         for (state, move, player) in state_action_iterator:
+            print state.size, "#", move,"#", player
             if state.size != bd_size:
                 raise SizeMismatchError()
             if move != go.PASS_MOVE:
                 nn_input = self.feature_processor.state_to_tensor(state)
+                print go.PASS_MOVE,"#", nn_input
                 yield (nn_input, move)
 
     def sgfs_to_hdf5(self, sgf_files, hdf5_file, bd_size=19, ignore_errors=True, verbose=False):
